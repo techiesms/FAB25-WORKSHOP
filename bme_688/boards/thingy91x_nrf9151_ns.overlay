@@ -1,0 +1,10 @@
+
+&i2c2 {
+    status = "okay";
+
+    bme680@76 {
+        compatible = "bosch,bme680";
+        reg = <0x76>;
+        status = "okay";
+    };
+};

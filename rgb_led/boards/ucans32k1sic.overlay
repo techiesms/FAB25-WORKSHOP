@@ -1,0 +1,67 @@
+/ {
+	leds {
+		compatible = "gpio-leds";
+
+		red_led: led_1 {
+			gpios = <&gpio0 29 GPIO_ACTIVE_LOW>;
+			label = "RGB red channel";
+		};
+
+		green_led: led_2 {
+			gpios = <&gpio0 31 GPIO_ACTIVE_LOW>;
+			label = "RGB green channel";
+		};
+
+		blue_led: led_3 {
+			gpios = <&gpio0 30 GPIO_ACTIVE_LOW>;
+			label = "RGB blue channel";
+		};
+	};
+
+	zephyr,user {
+		nrf5340-reset-gpios = <&gpio0 20 GPIO_ACTIVE_LOW>;
+	};
+
+	aliases {
+		sw0 = &button0;
+		led0 = &red_led;
+		led1 = &green_led;
+		led2 = &blue_led;
+
+		// Remove PWM-related aliases if not needed anymore
+		// pwm-led0 = &pwm_led0;
+		// pwm-led1 = &pwm_led1;
+		// pwm-led2 = &pwm_led2;
+		// rgb-pwm = &pwm0;
+
+		mcuboot-button0 = &button0;
+		spi-flash0 = &flash_ext;
+	};
+};
+
+&adc {
+	status = "okay";
+};
+
+&gpiote {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+	sense-edge-mask = <0xffffffff>;
+
+	exp_board_enable: exp_board_enable {
+		gpio-hog;
+		output-low;
+		gpios = <3 GPIO_ACTIVE_HIGH>;
+	};
+};
+
+// Comment out PWM block if not used anymore
+// &pwm0 {
+// 	status = "okay";
+// 	pinctrl-0 = <&pwm0_default>;
+// 	pinctrl-1 = <&pwm0_sleep>;
+// 	pinctrl-names = "default", "sleep";
+// };
